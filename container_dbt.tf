@@ -40,18 +40,23 @@ resource "azapi_resource" "container_app" {
           {
             name  = "log-analytics-shared-key"
             value = data.azurerm_log_analytics_workspace.core.primary_shared_key
+          },
+          {
+            name  = "registry-password"
+            value = var.container_registry_password
           }
         ]
         ingress = null
         registries = [
           {
-            server   = data.azurerm_container_registry.this.login_server
-            identity = azurerm_user_assigned_identity.aci_identity.id
+            server            = var.container_registry_login_server
+            username          = var.container_registry_user_name
+            passwordSecretRef = "registry-password"
         }]
       }
       template = {
         containers = [{
-          image = "${data.azurerm_container_registry.this.login_server}/${var.dbt_container_repository}:${var.dbt_image_tag}"
+          image = "${var.container_registry_login_server}/${var.dbt_container_repository}:${var.dbt_image_tag}"
           name  = "dbt-instance"
           resources = {
             cpu    = var.dbt_container_cpu

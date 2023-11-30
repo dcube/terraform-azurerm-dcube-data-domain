@@ -15,6 +15,10 @@ resource "azapi_resource" "container_app_docs" {
           {
             name  = "snowflake-password"
             value = var.snowflake_password
+          },
+          {
+            name  = "registry-password"
+            value = var.container_registry_password
           }
         ]
         ingress = {
@@ -29,13 +33,14 @@ resource "azapi_resource" "container_app_docs" {
         }
         registries = [
           {
-            server   = data.azurerm_container_registry.this.login_server
-            identity = azurerm_user_assigned_identity.aci_identity_doc.id
+            server            = var.container_registry_login_server
+            username          = var.container_registry_user_name
+            passwordSecretRef = "registry-password"
         }]
       }
       template = {
         containers = [{
-          image = "${data.azurerm_container_registry.this.login_server}/${var.dbt_doc_container_repository}:${var.dbt_doc_image_tag}"
+          image = "${var.container_registry_login_server}/${var.dbt_doc_container_repository}:${var.dbt_doc_image_tag}"
           name  = "dbt-doc-instance"
           resources = {
             cpu    = var.dbt_doc_container_cpu

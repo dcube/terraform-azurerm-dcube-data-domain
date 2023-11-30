@@ -11,7 +11,7 @@ locals {
     dbt_doc_container_app_name     = length(var.dbt_doc_container_app_name) > 0 ? var.dbt_doc_container_app_name : "ca-${var.customer_code}-data-${var.domain_code}-${var.environment}-02"
     monitoring = {
       log_analytics_name    = length(var.log_analytics_name) > 0 ? var.log_analytics_name : "log-${var.customer_code}-logs-${var.environment}-01"
-      log_analytics_name_rg = length(var.log_analytics_name_rg) > 0 ? var.log_analytics_name_rg : "rg-infra-logs-${var.environment}-${var.region_code}-01"
+      log_analytics_name_rg = length(var.log_analytics_name_rg) > 0 ? var.log_analytics_name_rg : "rg-data-core-${var.environment}-${var.region_code}-01"
     }
   }
 

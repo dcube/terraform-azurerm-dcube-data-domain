@@ -1,4 +1,6 @@
 resource "azurerm_key_vault_access_policy" "keyvault_policies_azure_devops" {
+  count = var.is_same_spn_than_core ? 0 : 1 # If SPN is the same as the one used for core then this policy already exists
+
   key_vault_id = data.azurerm_key_vault.core.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = local.current_object_id

@@ -131,6 +131,26 @@ variable "snowflake_warehouse" {
 }
 
 #####################
+# Container registry
+#####################
+variable "container_registry_login_server" {
+  type        = string
+  default     = "dcube.azurecr.io"
+  description = "Login server of the container registry. Optional, default is the dcube container registry"
+}
+
+variable "container_registry_user_name" {
+  type        = string
+  description = "User name to connect to the container registry."
+}
+
+variable "container_registry_password" {
+  type        = string
+  sensitive   = true
+  description = "Password to connect to the container registry."
+}
+
+#####################
 # Container
 #####################
 
@@ -178,4 +198,10 @@ variable "dbt_doc_container_memory" {
   type        = string
   default     = "2Gi"
   description = "Memory to run DBT doc"
+}
+
+variable "is_same_spn_than_core" {
+  type        = bool
+  default     = false
+  description = "True if SPN used to deploy is the same than SPN used for 'core'. Default is false."
 }
