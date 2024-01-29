@@ -46,6 +46,12 @@ resource "azapi_resource" "container_app_docs" {
             cpu    = var.dbt_doc_container_cpu
             memory = var.dbt_doc_container_memory
           }
+          volumeMounts = [
+            {
+              mountPath  = "/dbt-doc"
+              volumeName = "dbt-doc-files-volume"
+            }
+          ]
           env = [
             {
               name  = "DBT_SF_ENV"
@@ -65,6 +71,13 @@ resource "azapi_resource" "container_app_docs" {
             }
           ]
         }]
+        volumes = [
+          {
+            name = "dbt-doc-files-volume"
+            storageType = "AzureFile"
+            storageName = "dbt-doc"
+          }
+        ]
         scale = {
           minReplicas = 0
           maxReplicas = 1

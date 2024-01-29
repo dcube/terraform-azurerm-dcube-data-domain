@@ -85,6 +85,12 @@ variable "dbt_doc_container_app_name" {
   description = "Name of the Container App running DBT doc. Optional, default is 'ca-$${var.customer_code}-data-$${var.domain_code}-$${var.environment}-02'"
 }
 
+variable "dbt_storage_name" {
+  type        = string
+  default     = ""
+  description = "Name of the storage account where DBT project is stored. Optional, default is 'st${var.customer_code}data${var.domain_code}${var.environment}01'"
+}
+
 #####################
 # Identity
 #####################
@@ -204,4 +210,13 @@ variable "is_same_spn_than_core" {
   type        = bool
   default     = false
   description = "True if SPN used to deploy is the same than SPN used for 'core'. Default is false."
+}
+
+#####################
+# Storage
+#####################
+
+variable "storage_redundancy" {
+  type        = string
+  description = "Redundancy for the storage accounts. For example, LRS, GRS, ..."
 }
